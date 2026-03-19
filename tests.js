@@ -1,122 +1,191 @@
-const logProblemResult = (result) => {
-  if (result.passed) {
-    console.log(`PASS: ${result.name}`)
-  } else {
-    console.log(`FAIL: ${result.name} - ${result.reason}`)
-  }
-}
+let passed = 0
+let failed = 0
 
-const testFlipCoin = () => {
-  const name = "flipCoin"
-  const validValues = new Set(["heads", "tails"])
-
-  for (let i = 0; i < 200; i += 1) {
-    const result = flipCoin()
-
-    if (!validValues.has(result)) {
-      return {
-        name,
-        passed: false,
-        reason: `returned \"${result}\" on run ${i + 1}; expected \"heads\" or \"tails\"`
-      }
-    }
-  }
-
-  return { name, passed: true }
-}
-
-const testRemoveNonAWords = () => {
-  const name = "removeNonAWords"
-  const input = ["apple", "banana", "Australia", "piano", "avocado", "Apricot"]
-  const expected = ["apple", "Australia", "avocado", "Apricot"]
-  const actual = removeNonAWords(input)
-
-  if (!Array.isArray(actual)) {
-    return {
-      name,
-      passed: false,
-      reason: "did not return an array"
-    }
-  }
-
-  if (actual.length !== expected.length) {
-    return {
-      name,
-      passed: false,
-      reason: `returned ${actual.length} words; expected ${expected.length}`
-    }
-  }
-
-  for (let i = 0; i < expected.length; i += 1) {
-    if (actual[i] !== expected[i]) {
-      return {
-        name,
-        passed: false,
-        reason: `mismatch at index ${i}; expected \"${expected[i]}\", got \"${actual[i]}\"`
-      }
-    }
-  }
-
-  return { name, passed: true }
-}
-
-const testIsPrime = () => {
-  const name = "isPrime"
-  const primeCases = [2, 3, 5, 7, 11, 13, 97]
-  const nonPrimeCases = [0, 1, -3, 4, 6, 8, 9, 12, 100]
-
-  for (const value of primeCases) {
-    if (isPrime(value) !== true) {
-      return {
-        name,
-        passed: false,
-        reason: `${value} should be prime`
-      }
-    }
-  }
-
-  for (const value of nonPrimeCases) {
-    if (isPrime(value) !== false) {
-      return {
-        name,
-        passed: false,
-        reason: `${value} should be non-prime`
-      }
-    }
-  }
-
-  return { name, passed: true }
-}
-
-const runTests = () => {
-  const statusIcon = document.getElementById("status-icon")
-  const results = [testFlipCoin(), testRemoveNonAWords(), testIsPrime()]
-
-  for (const result of results) {
-    logProblemResult(result)
-  }
-
-  const passed = results.every((result) => result.passed)
-
-  if (passed) {
-    if (statusIcon) {
-      statusIcon.textContent = "⭐"
-      statusIcon.setAttribute("title", "All tests passed")
-    }
-
-    console.log("All tests passed.")
-  } else {
-    if (statusIcon) {
-      statusIcon.textContent = "⚙️"
-      statusIcon.setAttribute("title", "Tests failed")
-    }
-
-    console.log("Some tests failed.")
-  }
-}
-
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", runTests)
+// 1
+if (
+    square(1) === 1 &&
+    square(4) === 16 &&
+    square(5) === 25
+) {
+    console.log(`1. square: ✅`)
+    passed += 1
 } else {
-  runTests()
+    console.log(`1. square: ❌`)
+    failed += 1
+}
+
+// 2
+if (
+    digitCount(100) === 3 &&
+    digitCount(9999) === 4 &&
+    digitCount(12345) === 5
+) {
+    console.log(`2. digitCount: ✅`)
+    passed += 1
+} else {
+    console.log(`2. digitCount: ❌`)
+    failed += 1
+}
+
+// 3
+if (
+    !isValidPassword("Abcdefgh") &&
+    !isValidPassword("123abcde") &&
+    !isValidPassword("12AbC") &&
+    isValidPassword("123AbCde")
+) {
+    console.log(`3. isValidPassword: ✅`)
+    passed += 1
+} else {
+    console.log(`3. isValidPassword: ❌`)
+    failed += 1
+}
+
+// 4
+if (
+    birdCounter(["hawk", "hawk", "blue jay", "hawk"], "hawk") === 3 &&
+    birdCounter(["vulture", "crow", "vulture"], "vulture") === 2 &&
+    birdCounter(["pigeon", "robin"], "duck") === 0
+) {
+    console.log(`4. birdCounter: ✅`)
+    passed += 1
+} else {
+    console.log(`4. birdCounter: ❌`)
+    failed += 1
+}
+
+// 5
+if (
+    secondBirdCounter(["Turkey", "duck", "Duck  ", "turkey", "turkey "], "duck") === 2 &&
+    secondBirdCounter([" Robin", "robin ", "ROBIN"], "robin") === 3 &&
+    secondBirdCounter(["eagle", "hawk"], "duck") === 0
+) {
+    console.log(`5. secondBirdCounter: ✅`)
+    passed += 1
+} else {
+    console.log(`5. secondBirdCounter: ❌`)
+    failed += 1
+}
+
+// 6
+if (
+    hasDuplicates(["Washington", "Adams", "Monroe", "Adams"]) &&
+    hasDuplicates(["x", "x", "y", "y"]) &&
+    !hasDuplicates(["red", "blue", "green"])
+) {
+    console.log(`6. hasDuplicates: ✅`)
+    passed += 1
+} else {
+    console.log(`6. hasDuplicates: ❌`)
+    failed += 1
+}
+
+// 7
+if (
+    JSON.stringify(toolCounts(["hammer", "nails", "hammer"])) === JSON.stringify({ hammer: 2, nails: 1 }) &&
+    JSON.stringify(toolCounts(["saw"])) === JSON.stringify({ saw: 1 })
+) {
+    console.log(`7. toolCounts: ✅`)
+    passed += 1
+} else {
+    console.log(`7. toolCounts: ❌`)
+    failed += 1
+}
+
+// 8
+if (
+    mostCommonBird(["sparrow", "sparrow", "wren", "sparrow", "wren"]) === "sparrow, 3" &&
+    mostCommonBird(["crow", "crow", "crow", "nightjar"]) === "crow, 3" &&
+    (
+        mostCommonBird(["turkey", "turkey", "dove", "dove"]) === "turkey, 2" ||
+        mostCommonBird(["turkey", "turkey", "dove", "dove"]) === "dove, 2"
+    )
+) {
+    console.log(`8. mostCommonBird: ✅`)
+    passed += 1
+} else {
+    console.log(`8. mostCommonBird: ❌`)
+    failed += 1
+}
+
+// 9
+if (
+    countValidBarcodes(["12345678", "12A45678", "00000000"]) === 2 &&
+    countValidBarcodes(["11111111", "22222222", "3333333"]) === 2 &&
+    countValidBarcodes(["abc", "1234", "A2345678"]) === 0
+) {
+    console.log(`9. countValidBarcodes: ✅`)
+    passed += 1
+} else {
+    console.log(`9. countValidBarcodes: ❌`)
+    failed += 1
+}
+
+// 10
+if (
+    titleCase("sAtuRn") === "Saturn" &&
+    titleCase("JUPITER") === "Jupiter" &&
+    titleCase("earth") === "Earth"
+) {
+    console.log(`10. titleCase: ✅`)
+    passed += 1
+} else {
+    console.log(`10. titleCase: ❌`)
+    failed += 1
+}
+
+// 11
+if (
+    raiseToThePowerOf(3, 4) === 81 &&
+    raiseToThePowerOf(2, 5) === 32 &&
+    raiseToThePowerOf(7, 1) === 7
+) {
+    console.log(`11. raiseToThePowerOf: ✅`)
+    passed += 1
+} else {
+    console.log(`11. raiseToThePowerOf: ❌`)
+    failed += 1
+}
+
+// 12
+if (
+    heaviestPackage([{ name: "lamp", weight: 4.1 }, { name: "statue", weight: 9.3 }]) === "statue" &&
+    heaviestPackage([{ name: "a", weight: 3 }, { name: "b", weight: 2 }]) === "a" &&
+    (
+        heaviestPackage([{ name: "a", weight: 1 }, { name: "b", weight: 1 }]) === "a" ||
+        heaviestPackage([{ name: "a", weight: 1 }, { name: "b", weight: 1 }]) === "b"
+    )
+) {
+    console.log(`12. heaviestPackage: ✅`)
+    passed += 1
+} else {
+    console.log(`12. heaviestPackage: ❌`)
+    failed += 1
+}
+
+// 13
+if (
+    chessKnightMoves(0, 1) &&
+    JSON.stringify(chessKnightMoves(0, 1).sort()) === JSON.stringify([[1, 3], [2, 0], [2, 2]].sort()) &&
+    JSON.stringify(chessKnightMoves(3, 3).sort()) === JSON.stringify([[1, 2], [1, 4], [2, 1], [2, 5], [4, 1], [4, 5], [5, 2], [5, 4]].sort())
+) {
+    console.log(`13. chessKnightMoves: ✅`)
+    passed += 1
+} else {
+    console.log(`13. chessKnightMoves: ❌`)
+    failed += 1
+}
+
+console.log(`${passed}/${passed + failed}`)
+
+const statusIcon = document.getElementById('status-icon')
+
+if (statusIcon) {
+    if (passed === 13) {
+        statusIcon.textContent = '🐓'
+    } else if (passed > 6) {
+        statusIcon.textContent = '🐣'
+    } else {
+        statusIcon.textContent = '🥚'
+    }
 }
